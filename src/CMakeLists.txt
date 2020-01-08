@@ -57,7 +57,7 @@ if(type STREQUAL host)
     endif()
 
     install(TARGETS main Host DESTINATION ${CMAKE_OUTPUT_DIR})
-    install(FILES run_classification.py DESTINATION ${CMAKE_OUTPUT_DIR})
+    install(FILES run_superResolution.py DESTINATION ${CMAKE_OUTPUT_DIR})
 else()
     add_compile_options(-DCPU_ONLY)
 

@@ -120,6 +120,19 @@ void PostProcess(float *res, uint8_t *res_uint8, int32_t size,
         }
       }
       break;
+    case 3: //IDN  TBD
+        output_width = model_width * 3;
+        output_height = model_height * 3;
+        for (uint32_t i = 0; i < size; i++) {
+          if (res[i] <= 0) {
+            res_uint8[i] = 0;
+          } else if (res[i] >= 1) {
+            res_uint8[i] = 255;
+          } else {
+            res_uint8[i] = (uint8_t)(round(res[i] * 255));
+          }
+        }
+        break;
     case 2: // ESPCN
       output_width = model_width * 3;
       output_height = model_height * 3;
@@ -152,9 +165,12 @@ void GenerateAndSaveImage(uint8_t *result, uint32_t height, uint32_t width,
   string output_name(file_path.substr(pos + 1));
   pos = bicubic_name.find_last_of('.');
   bicubic_name.insert(pos, "_bicubic");
-  if (model_type == 0) output_name.insert(pos, "_srcnn");
-  else if (model_type == 1) output_name.insert(pos, "_fsrcnn");
-  else output_name.insert(pos, "_espcn");
+  switch (model_type) {
+    case 0 : output_name.insert(pos, "_srcnn"); break;
+    case 1 : output_name.insert(pos, "_fsrcnn"); break;
+    case 2: output_name.insert(pos, "_espcn"); break;
+    case 3 : output_name.insert(pos,"_idn");  break;
+  }
 
   cv::Mat mat_out_y(height, width, CV_8U, result);
 

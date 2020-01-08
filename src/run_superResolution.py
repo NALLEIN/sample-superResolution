@@ -43,25 +43,22 @@ CONCOLE_LIST = ' {} {} {} {} {}'
 
 def get_args():
     """input argument parser function
-        -t --model_type: super-resolution model type (0:SRCNN, 1:FSRCNN, 2:ESPCN).
-        -m --model_path: davinci offline model path.
+        -t --model_type: super-resolution model type (0:SRCNN, 1:FSRCNN, 2:ESPCN, 3: IDN).
         -w --model_width: width of input images required by model.
         -h --model_height: height of input images required by model.
         -i --input_path: paths and folders of input images.
         -c --is_colored: whether the image is colored (1:yes, 0:no).
         eg:
-        python3 run_classification.py -t 0 -m srcnn.om \
+        python3 run_superResolution.py -t 0 -m srcnn.om \
         -w 224 -h 224 -i test.jpg -c 1
     """
     parser = argparse.ArgumentParser(
         conflict_handler='resolve',
-        description='eg: python3 run_classification.py -t 0 -m srcnn.om \
+        description='eg: python3 run_superResolution.py -t 0 -m srcnn.om \
         -w 224 -h 224 -i test.jpg -c 1')
     parser.add_argument('-t', '--model_type', required=True, type=int,
                         help='super-resolution model type \
-                              (0:SRCNN, 1:FSRCNN, 2:ESPCN).')
-    parser.add_argument('-m', '--model_path', required=True,
-                        help='davinci offline model path.')
+                              (0:SRCNN, 1:FSRCNN, 2:ESPCN, 3: IIDN).')
     parser.add_argument('-w', '--model_width', required=True, type=int,
                         help='model input width. range:[16,4096]')
     parser.add_argument('-h', '--model_height', required=True, type=int,
@@ -93,8 +90,8 @@ def validate_args(args):
         elif not os.path.isfile(path):
             eprint('[ERROR] input image path=%r does not exist.' % path)
             check_flag = False
-    if not 0 <= args.model_type <= 2:
-        eprint('[ERROR] model type must be between 0 and 2.')
+    if not 0 <= args.model_type <= 3:
+        eprint('[ERROR] model type must be between 0 and 3.')
         check_flag = False
     if not 16 <= args.model_width <= 4096:
         eprint('[ERROR] model width must be between 16 and 4096.')

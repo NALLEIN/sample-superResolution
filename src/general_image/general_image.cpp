@@ -153,7 +153,7 @@ void GeneralImage::GetPathFiles(const string &path, vector<string> &file_vec) {
 
 bool GeneralImage::ArrangeImageInfo(shared_ptr<EngineTrans> &image_handle,
                                     const string &image_path, 
-                                    const uint8_t mdoel_type) {
+                                    const uint8_t model_type) {
   // read image using OPENCV
   cv::Mat mat = cv::imread(image_path, CV_LOAD_IMAGE_GRAYSCALE);
   if (mat.empty()) {
@@ -172,6 +172,7 @@ bool GeneralImage::ArrangeImageInfo(shared_ptr<EngineTrans> &image_handle,
       break;
     case 1: // FSRCNN
     case 2: // ESPCN
+    case 3: // IDN
       break;
   }
   // set property
